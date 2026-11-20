@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101426">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DreamTrack">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>DreamTrack — Sleep, made simple</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1020;--panel:#171d32;--panel2:#202943;--text:#f5f6ff;--muted:#a6aec8;--accent:#a995ff;--accent2:#72d6d0;--line:#303956;--danger:#ff8b9a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#28345c 0,transparent 55%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}.app{max-width:520px;margin:auto;padding:env(safe-area-inset-top) 18px calc(92px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 2px 18px}.brand{display:flex;align-items:center;gap:10px}.moon{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#a995ff,#72d6d0);display:grid;place-items:center;color:#11172b;font-size:22px}.brand h1{font-size:20px;margin:0;letter-spacing:.2px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);width:40px;height:40px;border-radius:13px}
+h2{font-size:24px;margin:12px 0 5px}.sub{color:var(--muted);font-size:14px;margin:0 0 20px}.hero{background:linear-gradient(145deg,#242e50,#171d32 70%);border:1px solid #3a456b;border-radius:25px;padding:22px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#a995ff12;right:-70px;top:-90px}.eyebrow{color:#c3baff;font-size:11px;font-weight:700;letter-spacing:1.5px}.big{font-size:43px;font-weight:750;letter-spacing:-1.8px;margin:8px 0 2px}.hero p{color:var(--muted);margin:0;font-size:13px}.hero-actions{display:flex;gap:10px;margin-top:20px;position:relative;z-index:1}
+.primary,.secondary{border:0;border-radius:14px;padding:13px 16px;font-weight:700}.primary{background:var(--accent);color:#17132b;flex:1}.secondary{background:#ffffff12;color:var(--text);border:1px solid #ffffff20}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:16px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:22px;margin-top:7px}.stat span{color:var(--accent2);font-size:11px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}.sectionhead h3{font-size:16px;margin:0}.sectionhead button{border:0;background:none;color:var(--accent);font-weight:650}
+.week{display:flex;justify-content:space-between;gap:7px}.day{flex:1;text-align:center;color:var(--muted);font-size:11px}.barwrap{height:78px;display:flex;align-items:end;justify-content:center;margin:9px 0}.bar{width:19px;min-height:5px;border-radius:9px;background:linear-gradient(180deg,var(--accent2),var(--accent));opacity:.9}.day.today .bar{box-shadow:0 0 16px #a995ff66}.day b{display:block;color:var(--text);font-size:11px;font-weight:500}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:22px 8px}.record{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.record:last-child{border:0}.record strong{font-size:14px}.record small{display:block;color:var(--muted);margin-top:4px}.record b{color:var(--accent2)}
+nav{position:fixed;bottom:0;left:0;right:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#0d1222eF;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5}.navinner{width:min(520px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.navitem{border:0;background:transparent;color:var(--muted);padding:9px 5px;border-radius:13px;font-size:11px}.navitem span{display:block;font-size:18px;margin-bottom:3px}.navitem.active{background:#a995ff1c;color:#d5ceff}
+.view{display:none}.view.active{display:block}
+.modal{position:fixed;inset:0;background:#050817cc;display:none;align-items:end;justify-content:center;z-index:10;padding:12px}.modal.show{display:flex}.sheet{width:min(520px,100%);background:#171d32;border:1px solid var(--line);border-radius:25px 25px 18px 18px;padding:22px;max-height:90vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.sheethead h3{margin:0;font-size:19px}.close{background:#ffffff12;color:white;border:0;border-radius:10px;width:34px;height:34px;font-size:20px}
+label{display:block;color:var(--muted);font-size:12px;margin:14px 0 7px}input,select{width:100%;padding:14px;border:1px solid var(--line);border-radius:13px;background:#10162a;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--accent)}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sheet .primary{width:100%;margin-top:18px}.hint{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}.goalrow{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.goalrow input{width:100px}.pill{background:#a995ff1c;color:#d4ccff;border-radius:99px;padding:6px 10px;font-size:11px}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#e7e2ff;color:#17132b;padding:11px 16px;border-radius:99px;font-size:13px;font-weight:650;opacity:0;pointer-events:none;transition:.2s;z-index:20;white-space:nowrap}.toast.show{opacity:1}
+.disclaimer{color:var(--muted);font-size:11px;line-height:1.55;margin:18px 2px}.danger{color:var(--danger);background:none;border:1px solid #67313e;border-radius:12px;padding:11px;width:100%;margin-top:12px}
+@media(min-width:600px){.app{padding-top:25px}.modal{align-items:center}.sheet{border-radius:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="moon">☾</div><div><h1>DreamTrack</h1><p>Sleep, made simple.</p></div></div><button class="iconbtn" id="settingsBtn" aria-label="Settings">⚙</button></header>
+
+<main>
+<section class="view active" id="home">
+<h2>Good evening<span id="greetingDot">.</span></h2><p class="sub" id="todayLabel">A little better rest starts here.</p>
+<div class="hero"><div class="eyebrow">LAST NIGHT'S SLEEP</div><div class="big" id="lastDuration">—</div><p id="lastSub">Log your sleep to see your progress.</p><div class="hero-actions"><button class="primary" id="logSleepBtn">＋ Log sleep</button><button class="secondary" id="startSleepBtn">Start sleep</button></div></div>
+<div class="grid"><div class="stat"><small>7-DAY AVERAGE</small><strong id="average">—</strong><span>Based on your logs</span></div><div class="stat"><small>SLEEP GOAL</small><strong id="goalStat">8h 00m</strong><span id="goalStatus">Aim for consistency</span></div></div>
+<div class="sectionhead"><h3>Your last 7 nights</h3><span class="pill">Hours slept</span></div><div class="card"><div class="week" id="weekChart"></div></div>
+<div class="sectionhead"><h3>Recent nights</h3><button id="allHistoryBtn">See all</button></div><div class="card" id="recentList"><div class="empty">Your sleep history will appear here.</div></div>
+<p class="disclaimer">DreamTrack is a personal sleep diary, not a medical device. Sleep is recorded from the times you enter; this version does not automatically detect when you fall asleep.</p>
+</section>
+
+<section class="view" id="history">
+<h2>Sleep history</h2><p class="sub">Your recorded nights, all in one place.</p>
+<div class="card" id="historyList"><div class="empty">No sleep entries yet.</div></div>
+</section>
+
+<section class="view" id="insights">
+<h2>Your insights</h2><p class="sub">Simple patterns from the sleep you record.</p>
+<div class="grid"><div class="stat"><small>AVERAGE DURATION</small><strong id="insightAverage">—</strong><span>Last 7 nights</span></div><div class="stat"><small>ENTRIES</small><strong id="entryCount">0</strong><span>Total recorded nights</span></div></div>
+<div class="card"><div class="sectionhead" style="margin:0 0 10px"><h3>Consistency check</h3></div><p id="insightText" class="sub" style="margin:0">Add a few nights to reveal your patterns.</p></div>
+<div class="card" style="margin-top:12px"><div class="sectionhead" style="margin:0 0 10px"><h3>Your sleep goal</h3></div><div class="goalrow"><span>Target each night</span><strong id="goalDisplay">8h 00m</strong></div><button class="secondary" id="editGoalBtn" style="width:100%">Edit sleep goal</button></div>
+</section>
+</main>
+</div>
+<nav><div class="navinner"><button class="navitem active" data-view="home"><span>⌂</span>Home</button><button class="navitem" data-view="history"><span>◷</span>History</button><button class="navitem" data-view="insights"><span>✧</span>Insights</button></div></nav>
+
+<div class="modal" id="sleepModal"><div class="sheet"><div class="sheethead"><h3 id="modalTitle">Log your sleep</h3><button class="close" id="closeModal">×</button></div>
+<form id="sleepForm">
+<label for="sleepDate">Night of</label><input id="sleepDate" type="date" required>
+<div class="formrow"><div><label for="bedTime">Bedtime</label><input id="bedTime" type="time" value="23:00" required></div><div><label for="wakeTime">Wake time</label><input id="wakeTime" type="time" value="07:00" required></div></div>
+<label for="quality">How did you sleep?</label><select id="quality"><option value="5">Excellent</option><option value="4" selected>Good</option><option value="3">Okay</option><option value="2">Poor</option><option value="1">Very poor</option></select>
+<label for="notes">Notes (optional)</label><input id="notes" type="text" maxlength="100" placeholder="e.g. Woke up once">
+<button class="primary" type="submit">Save sleep entry</button><p class="hint">If your wake time is after midnight, DreamTrack automatically treats it as the following day.</p>
+</form></div></div>
+
+<div class="modal" id="goalModal"><div class="sheet"><div class="sheethead"><h3>Set your sleep goal</h3><button class="close" id="closeGoal">×</button></div><label for="goalInput">Target hours per night</label><input id="goalInput" type="number" min="1" max="14" step=".25" value="8"><button class="primary" id="saveGoal">Save goal</button></div></div>
+<div class="modal" id="settingsModal"><div class="sheet"><div class="sheethead"><h3>Settings</h3><button class="close" id="closeSettings">×</button></div><p class="sub">Your entries are stored on this device only.</p><button class="secondary" id="exportBtn" style="width:100%">Export sleep data (CSV)</button><button class="danger" id="clearBtn">Delete all sleep data</button><p class="hint">Export a backup before deleting data. Clearing browser website data may also remove your entries.</p></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='dreamtrack.entries.v1', GOAL='dreamtrack.goal.v1';
+let entries=loadEntries(), goal=Number(localStorage.getItem(GOAL))||8, editingId=null;
+function loadEntries(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}
+function save(){localStorage.setItem(KEY,JSON.stringify(entries))}
+function dateLocal(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
+function fmtDuration(min){return `${Math.floor(min/60)}h ${String(min%60).padStart(2,'0')}m`}
+function duration(e){let a=new Date(`${e.date}T${e.bed}:00`),b=new Date(`${e.date}T${e.wake}:00`);if(b<=a)b.setDate(b.getDate()+1);return Math.round((b-a)/60000)}
+function niceDate(s){return new Date(s+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})}
+function showToast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2100)}
+function openModal(id){$(id).classList.add('show')}
+function closeModal(id){$(id).classList.remove('show')}
+function sorted(){return [...entries].sort((a,b)=>b.date.localeCompare(a.date))}
+function avg(list){return list.length?Math.round(list.reduce((s,e)=>s+duration(e),0)/list.length):0}
+function render(){
+ const list=sorted(), last=list[0], recent=list.slice(0,7), average=avg(recent);
+ $('todayLabel').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+ $('lastDuration').textContent=last?fmtDuration(duration(last)):'—';
+ $('lastSub').textContent=last?`${niceDate(last.date)} · ${last.quality>=4?'You slept well':last.quality===3?'An okay night':'A difficult night'}`:'Log your sleep to see your progress.';
+ $('average').textContent=average?fmtDuration(average):'—';$('insightAverage').textContent=average?fmtDuration(average):'—';
+ $('goalStat').textContent=fmtDuration(goal*60);$('goalDisplay').textContent=fmtDuration(goal*60);
+ $('goalStatus').textContent=average?(average>=goal*60?'Goal reached on average':'Keep building your routine'):'Aim for consistency';
+ $('entryCount').textContent=entries.length;
+ let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=dateLocal(d);let e=entries.find(x=>x.date===key);days.push({key,label:d.toLocaleDateString(undefined,{weekday:'short'}).slice(0,2),mins:e?duration(e):0})}
+ let max=Math.max(goal*60,...days.map(x=>x.mins),1);
+ $('weekChart').innerHTML=days.map(x=>`<div class="day ${x.key===dateLocal()?'today':''}"><div class="barwrap"><div class="bar" style="height:${x.mins?Math.max(6,x.mins/max*72):4}px;opacity:${x.mins?1:.2}" title="${x.mins?fmtDuration(x.mins):'No entry'}"></div></div><b>${x.label}</b></div>`).join('');
+ const html=list.slice(0,4).map(e=>recordHTML(e)).join('')||'<div class="empty">Your sleep history will appear here.</div>';
+ $('recentList').innerHTML=html;$('historyList').innerHTML=list.map(e=>recordHTML(e,true)).join('')||'<div class="empty">No sleep entries yet. Tap “Log sleep” to add your first night.</div>';
+ $('insightText').textContent=entries.length<3?'Add at least three nights to start spotting patterns.':`Across your latest ${recent.length} entries, you average ${fmtDuration(average)} per night. ${average>=goal*60?'You are meeting your sleep goal on average.':'You are below your current sleep goal on average.'}`;
+ document.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editEntry(b.dataset.edit)));
+ document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteEntry(b.dataset.delete)));
+}
+function recordHTML(e,full=false){return `<div class="record"><div><strong>${niceDate(e.date)}</strong><small>${e.bed} → ${e.wake} · ${['','Very poor','Poor','Okay','Good','Excellent'][e.quality]}${e.notes?' · '+escapeHTML(e.notes):''}</small></div><div style="text-align:right"><b>${fmtDuration(duration(e))}</b>${full?`<div style="margin-top:7px"><button class="secondary" style="padding:5px 9px;font-size:11px" data-edit="${e.id}">Edit</button> <button class="secondary" style="padding:5px 9px;font-size:11px" data-delete="${e.id}">Delete</button></div>`:''}</div></div>`}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openLog(){editingId=null;$('modalTitle').textContent='Log your sleep';$('sleepForm').reset();$('sleepDate').value=dateLocal(new Date(Date.now()-86400000));$('bedTime').value='23:00';$('wakeTime').value='07:00';openModal('sleepModal')}
+function editEntry(id){let e=entries.find(x=>x.id===id);if(!e)return;editingId=id;$('modalTitle').textContent='Edit sleep entry';$('sleepDate').value=e.date;$('bedTime').value=e.bed;$('wakeTime').value=e.wake;$('quality').value=e.quality;$('notes').value=e.notes||'';openModal('sleepModal')}
+function deleteEntry(id){if(!confirm('Delete this sleep entry?'))return;entries=entries.filter(e=>e.id!==id);save();render();showToast('Entry deleted')}
+$('sleepForm').addEventListener('submit',ev=>{ev.preventDefault();let e={id:editingId||String(Date.now()),date:$('sleepDate').value,bed:$('bedTime').value,wake:$('wakeTime').value,quality:Number($('quality').value),notes:$('notes').value.trim()};if(duration(e)<=0||duration(e)>24*60){showToast('Please check your sleep times');return}if(editingId)entries=entries.map(x=>x.id===editingId?e:x);else entries.push(e);save();closeModal('sleepModal');render();showToast('Sleep saved successfully')});
+$('logSleepBtn').onclick=openLog;$('startSleepBtn').onclick=()=>{let now=new Date();$('sleepDate').value=dateLocal(now);$('bedTime').value=now.toTimeString().slice(0,5);$('wakeTime').value='07:00';$('modalTitle').textContent='Record bedtime';editingId=null;openModal('sleepModal')};
+$('closeModal').onclick=()=>closeModal('sleepModal');$('closeGoal').onclick=()=>closeModal('goalModal');$('closeSettings').onclick=()=>closeModal('settingsModal');
+$('editGoalBtn').onclick=()=>{$('goalInput').value=goal;openModal('goalModal')};$('saveGoal').onclick=()=>{let v=Number($('goalInput').value);if(v<1||v>14||!Number.isFinite(v)){showToast('Choose between 1 and 14 hours');return}goal=v;localStorage.setItem(GOAL,String(goal));closeModal('goalModal');render();showToast('Sleep goal updated')};
+$('settingsBtn').onclick=()=>openModal('settingsModal');$('allHistoryBtn').onclick=()=>switchView('history');
+$('exportBtn').onclick=()=>{let rows=[['Date','Bedtime','Wake time','Duration minutes','Quality','Notes'],...sorted().map(e=>[e.date,e.bed,e.wake,duration(e),e.quality,e.notes||''])];let csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');let url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));let a=document.createElement('a');a.href=url;a.download='dreamtrack-sleep-data.csv';a.click();URL.revokeObjectURL(url)};
+$('clearBtn').onclick=()=>{if(!confirm('Permanently delete all DreamTrack sleep entries from this device?'))return;entries=[];save();render();closeModal('settingsModal');showToast('All entries deleted')};
+function switchView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.navitem').forEach(v=>v.classList.toggle('active',v.dataset.view===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.navitem').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+</script>
+</body></html>
